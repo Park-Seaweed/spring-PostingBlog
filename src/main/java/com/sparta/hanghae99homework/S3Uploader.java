@@ -55,7 +55,6 @@ public class S3Uploader {
             log.info("파일이 삭제되지 못했습니다.");
         }
     }
-
     private Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(file.getOriginalFilename());
         System.out.println("convertFile = " + convertFile);
