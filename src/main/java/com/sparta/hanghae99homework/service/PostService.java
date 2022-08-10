@@ -20,16 +20,26 @@ public class PostService {
     private final PostRepository postRepository;
     private final UsersRepository usersRepository;
     private final S3Uploader s3Uploader;
-    public Post createPost(PostRequestDto postRequestDto) {
-
+//    public Post createPost(PostRequestDto postRequestDto) {
+//
+//        Users users = usersRepository.findById(postRequestDto.getUserWriter())
+//                .orElseThrow(()-> new IllegalArgumentException("아이디가 없습니다"));
+//        Post post = new Post(postRequestDto, users);
+//
+//        users.addPost(post);
+//
+//        return postRepository.save(post);
+//    }
+    public Post savePost(PostRequestDto postRequestDto) {
         Users users = usersRepository.findById(postRequestDto.getUserWriter())
                 .orElseThrow(()-> new IllegalArgumentException("아이디가 없습니다"));
         Post post = new Post(postRequestDto, users);
-
         users.addPost(post);
-
-        return postRepository.save(post);
+        postRepository.save(post);
+        return post;
     }
+
+
 
     public List<PostResponseDto> readPost() {
         List<Post> posts = postRepository.findAll();

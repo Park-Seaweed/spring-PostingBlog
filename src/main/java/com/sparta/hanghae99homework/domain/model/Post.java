@@ -3,6 +3,7 @@ package com.sparta.hanghae99homework.domain.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.hanghae99homework.dto.request.PostRequestDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,7 @@ public class Post {
     @Id
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String userWriter;
 
     @Column(nullable = false)
@@ -29,6 +30,9 @@ public class Post {
     private String content;
 
     private int likes;
+
+    @Column(columnDefinition = "TEXT")
+    private String filePath;
 
     @ManyToOne
     @JsonBackReference
@@ -45,8 +49,12 @@ public class Post {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
         this.likes = postRequestDto.getLike();
+        this.filePath = postRequestDto.getFilePath();
         this.users = users;
     }
+
+
+
 
     public void update(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
