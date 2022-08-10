@@ -33,6 +33,11 @@ public class Users extends Timestamped {
     @JsonManagedReference
     private List<Commit> commitList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "users")
+    private List<HeartLike> heartLikeList = new ArrayList<>();
+
+
+
     public Users(String username, String password){
         this.username = username;
         this.password = password;
@@ -58,5 +63,13 @@ public class Users extends Timestamped {
 
     public void deleteCommit(Commit commit) {
         this.commitList.remove(commit);
+    }
+
+    public void addHeartLike(HeartLike heartLike) {
+        this.heartLikeList.add(heartLike);
+    }
+
+    public void removeHeartLike(HeartLike heartLike) {
+        this.heartLikeList.remove(heartLike);
     }
 }

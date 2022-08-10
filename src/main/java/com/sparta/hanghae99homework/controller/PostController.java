@@ -43,4 +43,9 @@ public class PostController {
         postService.update(postId, postRequestDto);
         return postId;
     }
+    @PostMapping("/pots/{postId}/like")
+    public void heartLikes(@PathVariable Long postId, PostRequestDto postRequestDto){
+        postService.postLike(postId, postRequestDto.getUserWriter());
+    }
+
 }

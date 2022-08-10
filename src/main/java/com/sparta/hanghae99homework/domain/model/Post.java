@@ -1,15 +1,16 @@
 package com.sparta.hanghae99homework.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.hanghae99homework.dto.request.PostRequestDto;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @NoArgsConstructor
 @Getter
@@ -29,31 +30,36 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    private int likes;
-
     @Column(columnDefinition = "TEXT")
     private String filePath;
+
+    private int likeCount;
 
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "USERS_ID")
     private Users users;
 
+
+
     @OneToMany
     @JsonManagedReference
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<HeartLike> heartLikeList = new ArrayList<>();
+
+
+
 
 
     public Post(PostRequestDto postRequestDto, Users users) {
         this.userWriter = postRequestDto.getUserWriter();
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
-        this.likes = postRequestDto.getLike();
         this.filePath = postRequestDto.getFilePath();
         this.users = users;
     }
-
-
 
 
     public void update(PostRequestDto postRequestDto) {
@@ -64,7 +70,20 @@ public class Post {
     public void addComment(Comment comment) {
         this.commentList.add(comment);
     }
+
     public void deleteComment(Comment comment) {
         this.commentList.remove(comment);
+    }
+
+    public void addHeartLike(HeartLike heartLike) {
+        this.heartLikeList.add(heartLike);
+    }
+
+    public void removeHeartLike(HeartLike heartLike) {
+        this.heartLikeList.remove(heartLike);
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }

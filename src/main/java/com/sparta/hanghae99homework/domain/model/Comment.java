@@ -1,6 +1,7 @@
 package com.sparta.hanghae99homework.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.hanghae99homework.dto.request.CommentRequestDto;
 import lombok.Getter;
@@ -39,6 +40,8 @@ public class Comment {
     @OneToMany
     @JsonManagedReference
     private List<Commit> commitList = new ArrayList<>();
+
+
 
     public Comment(CommentRequestDto commentRequestDto, Users users, Post post){
         this.userWriter = commentRequestDto.getUserWriter();

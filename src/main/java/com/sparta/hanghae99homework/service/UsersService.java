@@ -23,7 +23,6 @@ public class UsersService {
         String password = requestDto.getPassword();
         Users users = new Users(username,password);
 
-
         return usersRepository.save(users);
     }
 

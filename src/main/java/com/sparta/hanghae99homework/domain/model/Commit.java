@@ -1,11 +1,13 @@
 package com.sparta.hanghae99homework.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sparta.hanghae99homework.dto.request.CommitRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -33,6 +35,8 @@ public class Commit {
     @JsonBackReference
     @JoinColumn(name = "COMMENT_ID")
     private Comment comment;
+
+
 
     public Commit(CommitRequestDto commitRequestDto, Users users, Comment comment){
         this.userWriter = commitRequestDto.getUserWriter();
