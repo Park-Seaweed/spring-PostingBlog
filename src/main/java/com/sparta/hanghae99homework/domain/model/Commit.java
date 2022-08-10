@@ -1,12 +1,14 @@
 package com.sparta.hanghae99homework.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sparta.hanghae99homework.dto.request.CommitRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -23,7 +25,7 @@ public class Commit {
     @Column(nullable = false)
     private String content;
 
-    private int likes;
+    private int likeCount;
 
     @ManyToOne
     @JsonBackReference
@@ -36,12 +38,15 @@ public class Commit {
     @JoinColumn(name = "COMMENT_ID")
     private Comment comment;
 
+    @OneToMany(mappedBy = "commit")
+    @JsonIgnore
+    private List<HeartLike> heartLikeList = new ArrayList<>();
+
 
 
     public Commit(CommitRequestDto commitRequestDto, Users users, Comment comment){
         this.userWriter = commitRequestDto.getUserWriter();
         this.content = commitRequestDto.getContent();
-        this.likes = commitRequestDto.getLikes();
         this.users = users;
         this.comment = comment;
 
@@ -49,5 +54,17 @@ public class Commit {
 
     public void update(CommitRequestDto commitRequestDto) {
         this.content = commitRequestDto.getContent();
+    }
+
+    public void addHeartLike(HeartLike heartLike) {
+        this.heartLikeList.add(heartLike);
+    }
+
+    public void removeHeartLike(HeartLike heartLike) {
+        this.heartLikeList.remove(heartLike);
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }

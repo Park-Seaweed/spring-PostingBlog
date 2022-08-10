@@ -34,6 +34,17 @@ public class HeartLike {
         this.post = post;
     }
 
+    public HeartLike(Users users,Comment comment){
+        this.users = users;
+        this.comment = comment;
+    }
+
+    public HeartLike(Users users, Commit commit){
+        this.users = users;
+        this.commit = commit;
+    }
+
+
 
 
 }

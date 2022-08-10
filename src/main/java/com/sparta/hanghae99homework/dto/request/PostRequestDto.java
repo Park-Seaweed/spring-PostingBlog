@@ -12,7 +12,7 @@ public class PostRequestDto {
     private String userWriter;
     private String title;
     private String content;
-    private int like;
+    private int likes;
     private String filePath;
 
 

@@ -1,6 +1,7 @@
 package com.sparta.hanghae99homework.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.hanghae99homework.dto.request.PostRequestDto;
@@ -47,6 +48,7 @@ public class Post {
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
+    @JsonIgnore
     private List<HeartLike> heartLikeList = new ArrayList<>();
 
 

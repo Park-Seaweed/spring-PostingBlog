@@ -1,5 +1,6 @@
 package com.sparta.hanghae99homework.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class Users extends Timestamped {
     private List<Commit> commitList = new ArrayList<>();
 
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     private List<HeartLike> heartLikeList = new ArrayList<>();
 
 

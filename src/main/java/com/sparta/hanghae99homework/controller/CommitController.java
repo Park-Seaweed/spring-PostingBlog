@@ -40,4 +40,8 @@ public class CommitController {
         commitService.update(commitId, commitRequestDto);
         return commitId;
     }
+    @PostMapping("/commit/{commitId}/like")
+    public void heartLikes(@PathVariable Long commitId,@RequestBody CommitRequestDto commitRequestDto){
+        commitService.commitLike(commitId, commitRequestDto.getUserWriter());
+    }
 }

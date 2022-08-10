@@ -1,11 +1,13 @@
 package com.sparta.hanghae99homework.service;
 
 import com.sparta.hanghae99homework.domain.model.Comment;
+import com.sparta.hanghae99homework.domain.model.HeartLike;
 import com.sparta.hanghae99homework.domain.model.Post;
 import com.sparta.hanghae99homework.domain.model.Users;
 import com.sparta.hanghae99homework.dto.request.CommentRequestDto;
 import com.sparta.hanghae99homework.dto.response.CommentResponseDto;
 import com.sparta.hanghae99homework.repository.CommentRepository;
+import com.sparta.hanghae99homework.repository.HeartLikeRepository;
 import com.sparta.hanghae99homework.repository.PostRepository;
 import com.sparta.hanghae99homework.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class CommentService {
     private final UsersRepository usersRepository;
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final HeartLikeRepository heartLikeRepository;
     public Comment createComment(Long postId, CommentRequestDto commentRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new IllegalArgumentException("아이디가 없습니다"));
@@ -63,5 +66,25 @@ public class CommentService {
         );
         comment.update(commentRequestDto);
         return commentId;
+    }
+
+    public void commentLike(Long commentId, String userWriter) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
+        Users users = usersRepository.findById(userWriter)
+                .orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
+        if (heartLikeRepository.findByCommentAndUsers(comment,users) == null){
+            HeartLike heartLike = new HeartLike(users,comment);
+            users.addHeartLike(heartLike);
+            comment.addHeartLike(heartLike);
+            comment.setLikeCount(comment.getHeartLikeList().size());
+            heartLikeRepository.save(heartLike);
+        }else {
+            HeartLike byCommentAndUsers = heartLikeRepository.findByCommentAndUsers(comment, users);
+            users.removeHeartLike(byCommentAndUsers);
+            comment.removeHeartLike(byCommentAndUsers);
+            comment.setLikeCount(comment.getHeartLikeList().size());
+            heartLikeRepository.delete(byCommentAndUsers);
+        }
     }
 }

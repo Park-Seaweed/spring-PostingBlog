@@ -39,4 +39,8 @@ public class CommentController {
         commentService.update(commentId, commentRequestDto);
         return commentId;
     }
+    @PostMapping("/comment/{commentId}/like")
+    public void heartLikes(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto){
+        commentService.commentLike(commentId, commentRequestDto.getUserWriter());
+    }
 }
