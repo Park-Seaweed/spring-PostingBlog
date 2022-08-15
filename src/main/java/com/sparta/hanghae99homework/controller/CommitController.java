@@ -44,4 +44,8 @@ public class CommitController {
     public void heartLikes(@PathVariable Long commitId,@RequestBody CommitRequestDto commitRequestDto){
         commitService.commitLike(commitId, commitRequestDto.getUserWriter());
     }
+    @GetMapping("/alsgur")
+    public String checkAlsgur(){
+        return "민혁이다";
+    }
 }
